@@ -1,66 +1,184 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Caso 3: CRUD con Arquitectura Hexagonal
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Descripción
 
-## About Laravel
+En este caso, deberás implementar un sistema que gestione tres entidades relacionadas (`Order`, `Customer`, `Product`) utilizando la Arquitectura Hexagonal y aplicando principios de DDD (Domain-Driven Design) . El objetivo es evaluar tu capacidad para estructurar el código en contextos delimitados (Bounded Contexts ) y separar las capas de dominio, aplicación e infraestructura.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este caso está diseñado para evaluar habilidades avanzadas en Laravel, incluyendo la implementación de autenticación, operaciones CRUD, filtros, ordenamiento, entre otras, todo organizado bajo los principios de DDD.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Historias de Usuario
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **HU-01** : Como usuario, quiero poder registrarme en el sistema proporcionando mi nombre, correo electrónico y contraseña para acceder a las funcionalidades protegidas.
+2. **HU-02** : Como usuario registrado, quiero poder iniciar sesión en el sistema utilizando mi correo electrónico y contraseña para acceder a mis datos y realizar operaciones.
+3. **HU-03** : Como usuario autenticado, quiero poder crear nuevos clientes para gestionar sus órdenes posteriormente.
+4. **HU-04** : Como usuario autenticado, quiero poder listar todos los clientes registrados en el sistema, con opciones de paginación, filtrado por nombre y ordenamiento por fecha de creación.
+5. **HU-05** : Como usuario autenticado, quiero poder actualizar la información de un cliente existente para mantener los datos actualizados.
+6. **HU-06** : Como usuario autenticado, quiero poder eliminar un cliente del sistema si ya no es necesario.
+7. **HU-07** : Como usuario autenticado, quiero poder crear nuevos productos para asociarlos a las órdenes de los clientes.
+8. **HU-08** : Como usuario autenticado, quiero poder listar todos los productos disponibles en el sistema, con opciones de filtrado por categoría y ordenamiento por precio.
+9. **HU-09** : Como usuario autenticado, quiero poder crear órdenes asociando productos específicos a un cliente determinado.
+10. **HU-10** : Como usuario autenticado, quiero poder ver el historial de órdenes de un cliente específico, mostrando los detalles de cada orden (productos asociados, cantidades y precios).
+11. **HU-11** : Como usuario autenticado, quiero poder calcular el total gastado por un cliente en todas sus órdenes, considerando el precio unitario de los productos y las cantidades asociadas.
+12. **HU-12** : Como usuario autenticado, quiero que cada producto tenga un código QR asociado que al escanearlo me muestre los datos del producto.
 
-## Learning Laravel
+## Especificaciones
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Autenticación
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Implementa registro e inicio de sesión usando **Sanctum**.
+- Asegúrate de que todas las rutas estén protegidas mediante middleware de autenticación.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Código QR
 
-## Laravel Sponsors
+- Implementa endpoints para generar código QR.
+- Asocia el código QR a información del producto.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Operaciones CRUD
 
-### Premium Partners
+- Implementa operaciones CRUD para las entidades `Customer`, `Product` y `Order`.
+- Usa la **Arquitectura Hexagonal** para separar las capas de dominio, aplicación e infraestructura.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Filtros y Ordenamiento
 
-## Contributing
+- En el listado de clientes, permite:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    - Filtrar por nombre.
+    - Ordenar por fecha de creación (Ascendente/Descendente).
 
-## Code of Conduct
+- En el listado de productos, permite:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    - Filtrar por categoría.
+    - Ordenar por precio (Ascendente/Descendente).
 
-## Security Vulnerabilities
+### Relaciones
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Implementa una función que calcule el total gastado por un cliente en todas sus órdenes. Esta función debe:
 
-## License
+    - Recorrer las órdenes del cliente.
+    - Multiplicar el precio unitario de cada producto por su cantidad en la orden.
+    - Sumar los totales de todas las órdenes.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Bounded Contexts
+
+### 1. Contexto de Identidad y Acceso (Identity & Access Management - IAM)
+
+- **Responsabilidad** : Gestionar la autenicación y autorización de usuarios.
+- **Entidades** :
+    - `User`: Representa a los usuarios del sistema.
+- **Casos de Uso** :
+    - Registro de usuarios.
+    - Inicio de sesión.
+- **Directorio** :
+```
+src/IdentityAndAccess/User/
+├── Domain/
+│   ├── Entities/User.php
+│   ├── Contract/UserContract.php
+│   └── ValueObjects/*
+├── Application/
+│   ├── RegisterUseCase.php
+│   └── LoginUseCase.php
+└── Infrastructure/
+    ├── Controllers/AuthController.php
+    ├── Validators/*
+    ├── Routes/api.php
+    └── Repositories/EloquentUserRepository.php
+```
+
+### 2. Contexto de Gestión de Clientes (Customer Management)
+
+- **Responsabilidad** : Gestionar la creación, actualización, eliminación y consulta de clientes.
+- **Entidades** :
+    - `Customer` : Representa a los clientes.
+- **Casos de Uso** :
+    - Crear cliente.
+    - Listar clientes (con filtros y ordenamiento).
+    - Actualizar cliente.
+    - Eliminar cliente.
+- **Directorio** :
+```
+src/CustomerManagement/Customer/
+├── Domain/
+│   ├── Entities/Customer.php
+│   ├── Contract/CustomerContract.php
+│   └── ValueObjects/*
+├── Application/
+│   ├── CreateCustomerUseCase.php
+│   ├── ListCustomersUseCase.php
+│   ├── UpdateCustomerUseCase.php
+│   └── DeleteCustomerUseCase.php
+└── Infrastructure/
+    ├── Controllers/CustomerController.php
+    ├── Validators/*
+    ├── Routes/api.php
+    └── Repositories/EloquentCustomerRepository.php
+```
+
+### 3. Contexto de Gestión de Productos (Product Management)
+
+- **Responsabilidad** : Gestionar la creación, actualización, eliminación y consulta de productos.
+- **Entidades** :
+    - `Product`: Representa a los productos del sistema.
+- **Casos de Uso** :
+    - Crear producto.
+    - Listar productos (con filtros y ordenamiento).
+    - Actualizar producto.
+    - Eliminar producto.
+- **Directorio** :
+```
+src/ProductManagement/Product/
+├── Domain/
+│   ├── Entities/Product.php
+│   ├── Contract/ProductContract.php
+│   └── ValueObjects/*
+├── Application/
+│   ├── CreateProductUseCase.php
+│   ├── ListProductsUseCase.php
+│   ├── UpdateProductUseCase.php
+│   ├── DeleteProductUseCase.php
+│   └── GenerateQrUseCase.php
+└── Infrastructure/
+    ├── Controllers/ProductController.php
+    ├── Controllers/QrController.php
+    ├── Validators/*
+    ├── Routes/api.php
+    └── Repositories/EloquentProductRepository.php
+```
+
+### 4. Contexto de Gestión de Órdenes (Order Management)
+
+- **Responsabilidad** : Gestionar la creación, consulta y cálculo de órdenes.
+- **Entidades** :
+    - `Order`: Representa una orden.
+    - `OrderItem`: Representa un producto asociado a una orden con su cantidad.
+- **Casos de Uso** :
+    - Crear orden.
+    - Consultar historial de órdenes de un cliente.
+    - Calcular el total gastado por un cliente.
+- **Directorio** :
+```
+src/OrderManagement/Order/
+├── Domain/
+│   ├── Entities/Order.php
+│   ├── Entities/OrderItem.php
+│   ├── Contract/OrderContract.php
+│   └── ValueObjects/*
+├── Application/
+│   ├── CreateOrder.php
+│   ├── ListOrdersByCustomer.php
+│   └── CalculateTotalSpentByCustomer.php
+└── Infrastructure/
+    ├── Controllers/OrderController.php
+    ├── Validators/*
+    ├── Routes/api.php
+    └── Repositories/EloquentOrderRepository.php
+```
+
+## Bases de datos
+
+Las migraciones, modelos, factories y seeders permanecen igual, pero ahora están organizadas dentro de los contextos correspondientes.
+
+## Consejos
+
+1. **Organización del Código** : Asegúrate de que cada contexto tenga su propia carpeta y siga la estructura de Dominio , Aplicación e Infraestructura.
+2. **Interfaces** : Define interfaces en el nivel de Dominio y proporciona implementaciones concretas en Infraestructura.
