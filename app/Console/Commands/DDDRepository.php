@@ -26,7 +26,7 @@ class DDDRepository extends Command
      */
     public function handle()
     {
-        $uri = base_path('src/'. $this->argument('context') .'/'. $this->argument('entity').'/infrastructure/repositories');
+        $uri = base_path('src/'. ucfirst($this->argument('context')) .'/'. ucfirst($this->argument('entity')).'/Infrastructure/Repositories');
         File::makeDirectory($uri, 0755, true, true);
         $this->info("Creación del repositorio {$this -> argument('entity')} ".$uri);
         $entity = ucfirst($this -> argument('entity'));

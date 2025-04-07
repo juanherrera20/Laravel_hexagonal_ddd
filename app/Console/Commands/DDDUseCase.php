@@ -26,7 +26,7 @@ class DDDUseCase extends Command
      */
     public function handle()
     {
-        $uri = base_path('src/'. $this->argument('context') .'/'. $this->argument('entity').'/application');
+        $uri = base_path('src/'. ucfirst($this->argument('context')) .'/'. ucfirst($this->argument('entity')).'/Application/UseCase');
         File::makeDirectory($uri, 0755, true, true);
         $this->info("Creación del caso de uso {$this -> argument('usecase')} ".$uri);
         $usecase = ucfirst($this -> argument('usecase'));
@@ -36,7 +36,7 @@ class DDDUseCase extends Command
         $import = 'use Src\\' . $contextname . '\\'.$entity.'\Domain\Contracts\\'.$entity.'RepositoryContract;';
         $repository = '$repository';
         $construct = '$this -> repository = $repository;';
-        $content = "<?php\n\ndeclare(strict_types=1);\n\nnamespace Src\\" . $contextname . "\\" . $entity . "\\Application;\n\n{$import}\n\nfinal class " . $filename . "\n{\n\tprivate {$repository};\n\n\tpublic function __construct({$entity}RepositoryContract {$repository})\n\t{\n\t\t{$construct}\n\t}\n\n\tpublic function __invoke()\n\t{\n\t\t//\n\t}\n}";
+        $content = "<?php\n\ndeclare(strict_types=1);\n\nnamespace Src\\" . $contextname . "\\" . $entity . "\\Application\\UseCase;\n\n{$import}\n\nfinal class " . $filename . "\n{\n\tprivate {$repository};\n\n\tpublic function __construct({$entity}RepositoryContract {$repository})\n\t{\n\t\t{$construct}\n\t}\n\n\tpublic function __invoke()\n\t{\n\t\t//\n\t}\n}";
         File::put($uri . "/{$filename}.php", $content);
         $this->info('Caso de uso creado en ' . $uri . "/{$filename}.php" );
 

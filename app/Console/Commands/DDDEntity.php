@@ -26,7 +26,7 @@ class DDDEntity extends Command
      */
     public function handle()
     {
-        $uri = base_path('src/'. $this->argument('context') .'/'. $this->argument('entity').'/domain/entities');
+        $uri = base_path('src/'. ucfirst($this->argument('context')) .'/'. ucfirst($this->argument('entity')).'/Domain/Entities');
         File::makeDirectory($uri, 0755, true, true);
         $this->info("Creación del modelo {$this -> argument('entity')} ".$uri);
         $filename = ucfirst($this -> argument('entity'));

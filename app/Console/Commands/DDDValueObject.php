@@ -26,7 +26,7 @@ class DDDValueObject extends Command
      */
     public function handle()
     {
-        $uri = base_path('src/'. $this->argument('context') .'/'. $this->argument('entity').'/domain/valueObjects');
+        $uri = base_path('src/'. ucfirst($this->argument('context')) .'/'. ucfirst($this->argument('entity')).'/Domain/ValueObjects');
         File::makeDirectory($uri, 0755, true, true);
         $this->info("Creación del valor-objeto {$this -> argument('entity')} ".$uri);
         $entity = ucfirst($this -> argument('entity'));

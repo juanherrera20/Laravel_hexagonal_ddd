@@ -26,7 +26,7 @@ class DDDContract extends Command
      */
     public function handle()
     {
-        $uri = base_path('src/'. $this->argument('context') .'/'. $this->argument('entity').'/domain/contracts');
+        $uri = base_path('src/'. ucfirst($this->argument('context')) .'/'. ucfirst($this->argument('entity')).'/Domain/Contracts');
         File::makeDirectory($uri, 0755, true, true);
         $this->info("Creación del contrato {$this -> argument('entity')} ".$uri);
         $filename = ucfirst($this -> argument('entity'));

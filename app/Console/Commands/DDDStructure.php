@@ -28,59 +28,79 @@ class DDDStructure extends Command
      */
     public function handle()
     {
-        $uri = base_path('src/'. $this->argument('context') .'/'. $this->argument('entity'));
+        $uri = base_path('src/'. ucfirst($this->argument('context')) .'/'. ucfirst($this->argument('entity')));
         $this->info('Creando estructura...');
 
-        File::makeDirectory($uri . '/domain', 0755, true, true);
-        $this->info($uri . '/domain');
+        File::makeDirectory($uri . '/Domain', 0755, true, true);
+        $this->info($uri . '/Domain');
 
-        File::makeDirectory($uri . '/domain/entities', 0755, true, true);
-        $this->info($uri . '/domain/entities');
+        File::makeDirectory($uri . '/Domain/Entities', 0755, true, true);
+        $this->info($uri . '/Domain/Entities');
 
-        File::makeDirectory($uri . '/domain/value_objects', 0755, true, true);
-        $this->info($uri . '/domain/valueObjects');
+        File::makeDirectory($uri . '/Domain/ValueObjects', 0755, true, true);
+        $this->info($uri . '/Domain/ValueObjects');
 
-        File::makeDirectory($uri . '/domain/contracts', 0755, true, true);
-        $this->info($uri . '/domain/contracts');
+        File::makeDirectory($uri . '/Domain/Contracts', 0755, true, true);
+        $this->info($uri . '/Domain/Contracts');
 
-        File::makeDirectory($uri . '/application', 0755, true, true);
-        $this->info($uri . '/application');
+        File::makeDirectory($uri . '/Application', 0755, true, true);
+        $this->info($uri . '/Application');
 
-        File::makeDirectory($uri . '/infrastructure', 0755, true, true);
-        $this->info($uri . '/infrastructure');
+        File::makeDirectory($uri . '/Application/UseCase', 0755, true, true);
+         $this->info($uri . '/Application/UseCase');
+ 
+         File::makeDirectory($uri . '/Application/DTO', 0755, true, true);
+         $this->info($uri . '/Application/DTO');
 
-        File::makeDirectory($uri . '/infrastructure/controllers', 0755, true, true);
-        $this->info($uri . '/infrastructure/controllers');
+        File::makeDirectory($uri . '/Infrastructure', 0755, true, true);
+        $this->info($uri . '/Infrastructure');
 
-        File::makeDirectory($uri . '/infrastructure/routes', 0755, true, true);
-        $this->info($uri . '/infrastructure/routes');
+        File::makeDirectory($uri . '/Infrastructure/Controllers', 0755, true, true);
+        $this->info($uri . '/Infrastructure/Controllers');
 
-        File::makeDirectory($uri . '/infrastructure/validators', 0755, true, true);
-        $this->info($uri . '/infrastructure/validators');
+        File::makeDirectory($uri . '/Infrastructure/Routes', 0755, true, true);
+        $this->info($uri . '/Infrastructure/routes');
 
-        File::makeDirectory($uri . '/infrastructure/repositories', 0755, true, true);
-        $this->info($uri . '/infrastructure/repositories');
+        File::makeDirectory($uri . '/Infrastructure/Validators', 0755, true, true);
+        $this->info($uri . '/Infrastructure/Validators');
 
-        File::makeDirectory($uri . '/infrastructure/listeners', 0755, true, true);
-        $this->info($uri . '/infrastructure/listeners');
+        File::makeDirectory($uri . '/Infrastructure/Repositories', 0755, true, true);
+        $this->info($uri . '/Infrastructure/Repositories');
 
-        File::makeDirectory($uri . '/infrastructure/events', 0755, true, true);
-        $this->info($uri . '/infrastructure/events');
+        File::makeDirectory($uri . '/Infrastructure/Mappers', 0755, true, true);
+        $this->info($uri . '/Infrastructure/Mappers');
 
         // api.php
-        $content = "<?php\n\nuse Src\\".$this->argument('context')."\\".$this->argument('entity')."\\infrastructure\controllers\\" . ucfirst($this->argument('entity')) . "Controller;";
-        File::put($uri . '/infrastructure/routes/api.php', $content);
-        $this->info('Archivo de rutas añadido en ' . $uri . 'infrastructure/routes/api.php' );
+        $content = "<?php\n\nuse Illuminate\\Support\\Facades\\Route;\nuse Src\\" . ucfirst($this->argument('context')) . "\\" . ucfirst($this->argument('entity')) . "\\Infrastructure\\Controllers\\" . ucfirst($this->argument('entity')) . "Controller;\n\n";
+        $content .= "Route::prefix('" . strtolower($this->argument('entity')) . "')->controller(" . ucfirst($this->argument('entity')) . "Controller::class)->group(function () {\n\n});";
+        File::put($uri . '/Infrastructure/Routes/api.php', $content);
+        $this->info('Archivo de rutas añadido en ' . $uri . '/Infrastructure/Routes/api.php');
 
         // local api.php added to main api.php
-        $content = "\nRoute::prefix('" . $this->argument('entity') . "')->group(base_path('src/". $this->argument('context') . "/" .$this->argument('entity') ."/infrastructure/routes/api.php'));\n";
-        File::append(base_path('routes/api.php'), $content);
-        $this->info('Modulo de rutas referenciado en el archivo api.php de routes.');
-
+        $routesFile = base_path('routes/api.php');
+        $contextGroup = "Route::group([], function () { // " . ucfirst($this->argument('context'));
+        $requireRoute = "    require base_path('src/" . ucfirst($this->argument('context')) . "/" . ucfirst($this->argument('entity')) . "/Infrastructure/Routes/api.php');";
+        $content = File::get($routesFile);
+        if (strpos($content, $requireRoute) === false) {
+            if (strpos($content, $contextGroup) !== false) {
+                // Si el grupo del contexto ya existe, agrega la nueva ruta dentro
+                $updatedContent = preg_replace(
+                    "/(Route::group\(\[\], function \(\) \{ \/\/ " . ucfirst($this->argument('context')) . "\n)(.*?)\n\}\);/s",
+                    "$1$2\n$requireRoute\n});",
+                    $content
+                );
+            } else {
+                // Si el grupo del contexto no existe, lo crea y añade la entidad
+                $updatedContent = $content . "\n\n$contextGroup\n$requireRoute\n});";
+            }
+            File::put($routesFile, $updatedContent);
+            $this->info('Módulo de rutas referenciado en el archivo api.php de routes.');
+        }
+        
         // EntityController.php
         $controllerName = ucfirst($this->argument('entity')) . 'Controller';
-        $content = "<?php\n\nnamespace Src\\" . $this->argument('context')."\\".$this->argument('entity')."\\infrastructure\\controllers;\n\nuse App\\Http\\Controllers\\Controller;\n\nfinal class $controllerName extends Controller { \n\n public function index() { \n // TODO: DDD Controller content here \n }\n}";
-        File::put($uri.'/infrastructure/controllers/' . $controllerName . '.php', $content);
+        $content = "<?php\n\nnamespace Src\\" . ucfirst($this->argument('context'))."\\".ucfirst($this->argument('entity'))."\\Infrastructure\\Controllers;\n\nuse App\\Http\\Controllers\\Controller;\n\nfinal class $controllerName extends Controller { \n\n public function index() { \n // TODO: DDD Controller content here \n }\n}";
+        File::put($uri.'/Infrastructure/Controllers/' . $controllerName . '.php', $content);
         $this->info('Controlador añadido');
 
         $this->info('Estructura ' . $this->argument('entity') . ' DDD creada correctamente.');
