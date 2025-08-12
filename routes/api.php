@@ -10,7 +10,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 // Auth Routes
 // Route::post('/tokens/create', function (Request $request) {
 //     $token = $request->user()->createToken($request->token_name);
@@ -25,9 +24,14 @@ Route::post('/auth/login', [AuthController::class, 'loginUser']);
 Route::get('/auth/logout', [AuthController::class, 'logoutUser'])->middleware("auth:sanctum");
 
 
-
 // Posts Routes
 Route::get('/posts', [PostController::class,'index'])->middleware("auth:sanctum");
+
+Route::post('/posts', [PostController::class,'store'])->middleware("auth:sanctum");
+
+Route::put('/posts/{id}', [PostController::class,'update'])->middleware("auth:sanctum");
+
+Route::delete('/posts/{id}', [PostController::class,'destroy'])->middleware("auth:sanctum");
 
 
 
