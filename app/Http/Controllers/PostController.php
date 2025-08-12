@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\updatepostrequest;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -40,8 +41,6 @@ class PostController extends Controller
 
         return response()->json($posts);
 
-        // $posts = Post::with('user')->paginate(10);
-        // return response()->json(compact('posts'));
     }
 
 
@@ -82,17 +81,17 @@ class PostController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(updatepostrequest $request, $id)
     {
         try {
             $validateUpdate = Validator::make($request->all(), $this->postsValidator);
 
-            if ($validateUpdate->fails()) {
-                return response()->json([
-                    'message' => 'Ha ocurrido un error de validación',
-                    'errors' => $validateUpdate->errors()
-                ], 400);
-            }
+            // if ($validateUpdate->fails()) {
+            //     return response()->json([
+            //         'message' => 'Ha ocurrido un error de validación',
+            //         'errors' => $validateUpdate->errors()
+            //     ], 400);
+            // }
 
             // Buscar el post
             $post = Post::findOrFail($id);
@@ -104,14 +103,14 @@ class PostController extends Controller
                 ], 403);
             }
 
-            $post->update($validateUpdate->validated());
+            $post->update($request->all());
 
             return response()->json([
                 'message' => 'Post actualizado correctamente',
                 'post' => $post
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // model not found exception
             return response()->json([
                 'message' => 'Error Interno del Servidor',
                 'error' => $e->getMessage()
