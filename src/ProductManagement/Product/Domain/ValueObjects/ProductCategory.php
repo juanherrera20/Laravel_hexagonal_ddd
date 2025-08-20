@@ -16,7 +16,7 @@ class ProductCategory
         }
 
         // Opcional: validar que la categoría esté dentro de un conjunto permitido
-        $allowedCategories = ['Electrónica', 'Ropa', 'Alimentos', 'Hogar', 'Otros'];
+        $allowedCategories = ['Electronics', 'Clothing', 'Books', 'Others'];
         if (!in_array($value, $allowedCategories)) {
             throw new InvalidArgumentException("La categoría '{$value}' no es válida.");
         }
