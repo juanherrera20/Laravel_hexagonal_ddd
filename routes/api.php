@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Import Routes from bounded Contexts
 use Src\ProductManagement\Product\Infrastructure\Controllers\ProductController;
+use Src\ProductManagement\Product\Infrastructure\Controllers\QrController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -19,6 +20,7 @@ Route::get('/user', function (Request $request) {
     Route::get('/products/{id}', [ProductController::class, 'show']);
     Route::put('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    Route::get('/products/{id}/qr', [QrController::class, 'generateQr']);
 // });
 
 
@@ -26,10 +28,13 @@ Route::group([], function () { // CustomerManagement
     require base_path('src/CustomerManagement/Customer/Infrastructure/Routes/api.php');
 });
 
-Route::group([], function () { // OrderManagement
+
+Route::prefix('orders')->group(function () { // OrderManagement
     require base_path('src/OrderManagement/Order/Infrastructure/Routes/api.php');
 });
 
 Route::group([], function () { // IdentityAndAccess
     require base_path('src/IdentityAndAccess/User/Infrastructure/Routes/api.php');
 });
+
+

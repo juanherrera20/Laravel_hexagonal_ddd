@@ -76,7 +76,7 @@ class ProductController extends Controller
             return response()->json(['error' => 'Producto no encontrado'], 404);
         }
 
-        return response()->json($this->formatProduct($product));
+        return response()->json($product);
     }
 
     public function destroy(int $id)

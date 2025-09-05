@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\IdentityAndAccess\User\Application\UseCase;
 
 use Src\IdentityAndAccess\User\Domain\Contracts\UserRepositoryInterface;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\IdentityAndAccess\User\Domain\Contracts;
 
 use Src\IdentityAndAccess\User\Domain\Entities\User;

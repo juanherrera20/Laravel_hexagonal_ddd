@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete('cascade');
             $table->foreignId('product_id')->constrained()->cascadeOnDelete('cascade');
             $table->integer('quantity')->default(1);
+            $table->float('price_at_order'); // <<-- ¡Columna añadida!
+            $table->string('name_at_order'); // <<-- ¡Columna añadida!
             $table->timestamps();
         });
     }
