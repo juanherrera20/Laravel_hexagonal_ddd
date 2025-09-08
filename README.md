@@ -2,9 +2,7 @@
 
 ## Descripción
 
-En este caso, deberás implementar un sistema que gestione tres entidades relacionadas (`Order`, `Customer`, `Product`) utilizando la Arquitectura Hexagonal y aplicando principios de DDD (Domain-Driven Design) . El objetivo es evaluar tu capacidad para estructurar el código en contextos delimitados (Bounded Contexts ) y separar las capas de dominio, aplicación e infraestructura.
-
-Este caso está diseñado para evaluar habilidades avanzadas en Laravel, incluyendo la implementación de autenticación, operaciones CRUD, filtros, ordenamiento, entre otras, todo organizado bajo los principios de DDD.
+En este caso, se implementa un sistema que gestione tres entidades relacionadas (`Order`, `Customer`, `Product`) utilizando la Arquitectura Hexagonal y aplicando principios de DDD (Domain-Driven Design).
 
 ## Historias de Usuario
 
@@ -42,7 +40,7 @@ Este caso está diseñado para evaluar habilidades avanzadas en Laravel, incluye
 
 - En el listado de clientes, permite:
 
-    - Filtrar por nombre.
+    - Filtrae por nombre.
     - Ordenar por fecha de creación (Ascendente/Descendente).
 
 - En el listado de productos, permite:
@@ -52,7 +50,7 @@ Este caso está diseñado para evaluar habilidades avanzadas en Laravel, incluye
 
 ### Relaciones
 
-- Implementa una función que calcule el total gastado por un cliente en todas sus órdenes. Esta función debe:
+- Se implementa una función que calcula el total gastado por un cliente en todas sus órdenes. Esta función permite:
 
     - Recorrer las órdenes del cliente.
     - Multiplicar el precio unitario de cada producto por su cantidad en la orden.
@@ -62,7 +60,7 @@ Este caso está diseñado para evaluar habilidades avanzadas en Laravel, incluye
 
 ### 1. Contexto de Identidad y Acceso (Identity & Access Management - IAM)
 
-- **Responsabilidad** : Gestionar la autenicación y autorización de usuarios.
+- **Responsabilidad** : Gestiona la autenicación y autorización de usuarios.
 - **Entidades** :
     - `User`: Representa a los usuarios del sistema.
 - **Casos de Uso** :
@@ -87,7 +85,7 @@ src/IdentityAndAccess/User/
 
 ### 2. Contexto de Gestión de Clientes (Customer Management)
 
-- **Responsabilidad** : Gestionar la creación, actualización, eliminación y consulta de clientes.
+- **Responsabilidad** : Gestiona la creación, actualización, eliminación y consulta de clientes.
 - **Entidades** :
     - `Customer` : Representa a los clientes.
 - **Casos de Uso** :
@@ -116,7 +114,7 @@ src/CustomerManagement/Customer/
 
 ### 3. Contexto de Gestión de Productos (Product Management)
 
-- **Responsabilidad** : Gestionar la creación, actualización, eliminación y consulta de productos.
+- **Responsabilidad** : Gestiona la creación, actualización, eliminación y consulta de productos.
 - **Entidades** :
     - `Product`: Representa a los productos del sistema.
 - **Casos de Uso** :
@@ -173,12 +171,3 @@ src/OrderManagement/Order/
     ├── Routes/api.php
     └── Repositories/EloquentOrderRepository.php
 ```
-
-## Bases de datos
-
-Las migraciones, modelos, factories y seeders permanecen igual, pero ahora están organizadas dentro de los contextos correspondientes.
-
-## Consejos
-
-1. **Organización del Código** : Asegúrate de que cada contexto tenga su propia carpeta y siga la estructura de Dominio , Aplicación e Infraestructura.
-2. **Interfaces** : Define interfaces en el nivel de Dominio y proporciona implementaciones concretas en Infraestructura.
