@@ -1,9 +1,5 @@
 # Caso 2: CRUD con Autenticación
 
-## Descripción
-
-En este caso, deberás implementar un CRUD para una entidad con autenticación basada en Sanctum. Además, deberás incluir paginación, filtrado y ordenamiento en las consultas.
-
 ## Historias de Usuario
 
 1. **HU-01** : Como usuario nuevo, quiero tener la posibilidad de registrarme en la aplicación.
@@ -17,7 +13,7 @@ En este caso, deberás implementar un CRUD para una entidad con autenticación b
 
 ## Especificaciones
 
-- Entidad sugerida: Post.
-- Implementa autenticación con Sanctum.
-- Usa paginación para listar registros.
-- Añade endpoints para filtrar y ordenar.
+- Entidades creadas: Post y User.
+- Se implementa autenticación con Sanctum.
+- Se implementa paginación para listar registros.
+- Contiene endpoints para filtrar y ordenar.
