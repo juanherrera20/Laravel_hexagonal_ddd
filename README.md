@@ -1,9 +1,5 @@
 # Caso 1: CRUD Básico
 
-## Descripción
-
-En este caso, deberás implementar un CRUD básico para una o más entidades sin autenticación. El objetivo es evaluar tu capacidad para trabajar con las operaciones básicas de Laravel (Create, Read, Update, Delete) siguiendo la arquitectura MVC.
-
 ## Historias de Usuario
 
 1. **HU-01** : Como usuario, quiero poder crear registros para una entidad principal (Libro) y asignarlos a una entidad relacionada (Autor).
@@ -14,10 +10,8 @@ En este caso, deberás implementar un CRUD básico para una o más entidades sin
 
 ## Especificaciones
 
-- Entidades sugeridas: Libro (principal) y Autor (relacionada).
-- Usa el patrón MVC para organizar tu código.
+- Entidades Creadas: Libro (principal) y Autor (relacionada).
+- Patrón MVC para organizar tu código.
 - Implementa una relación de uno a muchos (1:N) : Un autor puede tener muchos libros, pero un libro pertenece a un solo autor.
-- No es necesario implementar autenticación.
 - Incluye validaciones básicas en los formularios.
-- Asegúrate de mostrar correctamente las relaciones en las vistas.
-- Implementar manejo de errores predeterminados, para errores no tan comunes usar status 500.
+- Implementa manejo de errores predeterminados, para errores no tan comunes se usa status 500.
